@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Tic Tac Toe</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" type="text/css" href="main.css">
+
+<script type="text/javascript"
+  src="http://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous">
+</script>
+<script type="text/javascript">
+var score1=10;
+var score2=10;
+var Data1={};
+var Data2={};
+var initialise = "O";
+var Data1={};
+var id= '';
+var id2= '';
+var name1= '';
+var name2= '';
+
+
+
+    function launch(){
+    var x = document.getElementById("myDIV");
+  if (x.style.display === "none") {
+    x.style.display = "none";
+  } else {
+    x.style.display = "block";
+  }
+    }
+    function register()
+    {
+        id= document.getElementById("id");
+         id2= document.getElementById('id2');
+         name1= document.getElementById('name');
+         name2= document.getElementById('name2');
+         
+         Data={
+            "id":id.value,
+            "username":name1.value,
+            "score":0
+        };
+
+         Data2={
+            "id":id2.value,
+            "username":name2.value,
+            "score":0
+        };
+      url1='http://localhost:56584/api/users/'+id;
+    url2='http://localhost:56584/api/users/'+id2;
+        var st="Let's Play "+ name1.value +" and "+name2.value+"";
+        $.ajax({
+            url: url1,
+            type: 'POST',
+            dataType: 'json',
+            data: Data,
+            success: function(res){
+            alert(st);
+             }
+        });
+
+        $.ajax({
+            url: url2,
+            type: 'POST',
+            dataType: 'json',
+            data: Data2,
+            success: function(resp){
+            alert(st);
+            launch();
+             }
+        });
+    }
+
+function load(){
+     url1='http://localhost:56584/api/users/'+id;
+     url2='http://localhost:56584/api/users/'+id2;
+    
+$.ajax({
+            url: url1,
+            type: 'GET',
+            dataType: 'json',
+            success: function(res){
+                Data1=res;
+                score1=Data1["score"];
+              }
+        });
+$.ajax({
+            url:url2,
+            type: 'GET',
+            dataType: 'json',
+            success: function(resp){
+                Data2=resp;
+                score2=Data2["score"];
+            }
+        });
+
+}
+function update(winner){
+      id= document.getElementById("id");
+         id2= document.getElementById('id2');
+     url1='http://localhost:56584/api/users/'+id.value;
+     url2='http://localhost:56584/api/users/'+id2.value;
+    
+    if (winner.value=="X") {
+      score1=score1+10;
+      score2=score2-5;
+    }
+    else {
+    score1=score1-5;
+    score2=score2+10;
+    }
+    Data={
+        "id":Data1["id"],
+        "username":Data1["username"],
+        "score":score1
+    };
+
+    Data2={
+        "id":Data2["id"],
+        "username":Data2["username"],
+        "score":score2
+    };
+
+        
+    
+$.ajax({
+            url: url1,
+            type: 'PUT',
+            dataType: 'json',
+            data: Data,
+            success: function(res){
+alert("1 updated");
+              }
+        });
+$.ajax({
+            url: url2,
+            type: 'PUT',
+            dataType: 'json',
+            data: Data2,
+            success: function(resp){
+alert("2 updated");
+            }
+        });
+}
+  
+function reset() {
+    var b1 = document.getElementById("1");
+    var b2 = document.getElementById("2");
+    var b3 = document.getElementById("3");
+    var b4 = document.getElementById("4");
+    var b5 = document.getElementById("5");
+    var b6 = document.getElementById("6");
+    var b7 = document.getElementById("7");
+    var b8 = document.getElementById("8");
+    var b9 = document.getElementById("9");
+    
+    b1.value="";
+    b2.value="";
+    b3.value="";
+    b4.value="";
+    b5.value="";
+    b6.value="";
+    b7.value="";
+    b8.value="";
+    b9.value="";
+    b1.disabled=false;
+    b2.disabled=false;
+    b3.disabled=false;
+    b4.disabled=false;
+    b5.disabled=false;
+    b6.disabled=false;
+    b7.disabled=false;
+    b8.disabled=false;
+    b9.disabled=false;
+    
+    document.getElementById("popup").style.visibility = "hidden";
+    document.getElementById("overlay").style.visibility = "hidden";
+}
+
+function buttonsdeactivate() {
+    var b1 = document.getElementById("1");
+    var b2 = document.getElementById("2");
+    var b3 = document.getElementById("3");
+    var b4 = document.getElementById("4");
+    var b5 = document.getElementById("5");
+    var b6 = document.getElementById("6");
+    var b7 = document.getElementById("7");
+    var b8 = document.getElementById("8");
+    var b9 = document.getElementById("9");
+    
+    b1.disabled = true;
+    b2.disabled = true;
+    b3.disabled = true;
+    b4.disabled = true;
+    b5.disabled = true;
+    b6.disabled = true;
+    b7.disabled = true;
+    b8.disabled = true;
+    b9.disabled = true;
+}
+
+function popup(winner) {
+      buttonsdeactivate();
+    
+      popuptext = document.getElementById("text");
+      popuptext.innerHTML = winner + " wins.";
+      update(winner);
+
+      var pop = document.getElementById("popup");
+      var overlay = document.getElementById("overlay");
+      pop.style.visibility = "visible";
+      overlay.style.visibility ="visible";
+}
+
+function endcheck() {
+    var b1 = document.getElementById("1").value;
+    var b2 = document.getElementById("2").value;
+    var b3 = document.getElementById("3").value;
+    var b4 = document.getElementById("4").value;
+    var b5 = document.getElementById("5").value;
+    var b6 = document.getElementById("6").value;
+    var b7 = document.getElementById("7").value;
+    var b8 = document.getElementById("8").value;
+    var b9 = document.getElementById("9").value;
+    
+    if (((b1=="X") || (b1=="O")) && ((b1 == b2) && (b2 == b3))) {
+        popup(b1);
+    }
+    else if (((b1=="X") || (b1=="O")) && ((b1 == b4) && (b4 == b7))){
+        popup(b1);
+    }
+    else if (((b9=="X") || (b9=="O")) && ((b9 == b8) && (b8 == b7))){
+        popup(b9);
+    }
+    else if (((b9=="X") || (b9=="O")) && ((b9 == b6) && (b6 == b3))){
+      popup(b9);
+    }
+    else if (((b4=="X") || (b4=="O")) && ((b4 == b5) && (b5 == b6))){
+      popup(b4);
+    }
+    else if (((b2=="X") || (b2=="O")) && ((b2 == b5) && (b5 == b8))){
+      popup(b2);
+    }
+    else if (((b1=="X") || (b1=="O")) && ((b1 == b5) && (b5== b9))){
+      popup(b1);
+    }
+    else if (((b7=="X") || (b7=="O")) && ((b7 == b5) && (b5 == b3))){
+      popup(b7);
+    }
+    }
+
+  
+  
+  
+function put(x, initialise) {
+     if (x==1) {
+     var button = document.getElementById("1");
+     button.value = initialise;
+     button.disabled=true;
+     }
+     else if (x==2) {
+     var button = document.getElementById("2");
+     button.value = initialise;
+     button.disabled=true;
+     }
+     else if (x==3) {
+     var button = document.getElementById("3");
+     button.value = initialise;
+     button.disabled=true;
+     }
+     else if (x==4) {
+     var button = document.getElementById("4");
+     button.value = initialise;
+     button.disabled=true;
+     }
+     else if (x==5) {
+     var button = document.getElementById("5");
+     button.value = initialise;
+     button.disabled=true;
+     }
+     else if (x==6) {
+     var button = document.getElementById("6");
+     button.value = initialise;
+     button.disabled=true;
+     }
+     else if (x==7) {
+     var button = document.getElementById("7");
+     button.value = initialise;
+     button.disabled=true;
+     }
+     else if (x==8) {
+     var button = document.getElementById("8");
+     button.value = initialise;
+     button.disabled=true;
+     }
+     else if (x==9) {
+     var button = document.getElementById("9");
+     button.value = initialise;
+     button.disabled=true;
+     }
+     endcheck();
+     }
+  
+function xoo(button) {
+    if (initialise=="X") {
+    initialise="O";
+    put(button, initialise);
+    }
+    else if (initialise=="O") {
+    initialise="X";
+    put(button, initialise);
+    }
+    }
+</script>
+</head>
+  <body>
+
+    /*onload="load()">*/
+
+  <h3>Player1</h3>
+<input type="text" id="id">
+<input type="text" id="name">
+<br>
+  <h3>Player2</h3>
+<input type="text" id="id2">
+<input type="text" id="name2">
+<input type="submit" id="register" value="Register" onclick="register()">
+
+<div id="myDIV">
+  <header>
+  <h1>TIC TAC TOE</h1>
+  </header>
+  <br />
+  <br />
+  <br />
+  <br />
+  
+  <table>
+  <tr>
+  <td><input type="button" id="1" onclick="xoo(1)" value=""/></td>
+  <td><input type="button" id="2" onclick="xoo(2)" value=""/></td>
+  <td><input type="button" id="3" onclick="xoo(3)" value=""/></td>
+  </tr>
+  <tr>
+  <td><input type="button" id="4" onclick="xoo(4)" value=""/></td>
+  <td><input type="button" id="5" onclick="xoo(5)" value=""/></td>
+  <td><input type="button" id="6" onclick="xoo(6)" value=""/></td>
+  </tr>
+  <tr>
+  <td><input type="button" id="7" onclick="xoo(7)" value=""/></td>
+  <td><input type="button" id="8" onclick="xoo(8)" value=""/></td>
+  <td><input type="button" id="9" onclick="xoo(9)" value=""/></td>
+  </tr>
+  </table>
+  <br><br>
+  
+  <button onclick="reset()" >Reset</button>
+  
+  <section align="center" id="popup">
+  <p id="text">text</p>
+  <button id="popupbutton" onclick="reset()">Ok</button>
+  </section>
+  
+  <section id="overlay"></section>
+</div>
+  </body>
+</html>

@@ -4,7 +4,6 @@
   <head>
     <title>Tic Tac Toe</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <link rel="stylesheet" type="text/css" href="main.css">
 
@@ -34,10 +33,10 @@ var name2= '';
   } else {
     x.style.display = "block";
   }
-    }
+  }
     function register()
     {
-        id= document.getElementById("id");
+        id= document.getElementById('id');
          id2= document.getElementById('id2');
          name1= document.getElementById('name');
          name2= document.getElementById('name2');
@@ -72,7 +71,7 @@ var name2= '';
             dataType: 'json',
             data: Data2,
             success: function(resp){
-            alert(st);
+            
             launch();
              }
         });
@@ -103,10 +102,13 @@ $.ajax({
 
 }
 function update(winner){
-      id= document.getElementById("id");
-         id2= document.getElementById('id2');
-     url1='http://localhost:56584/api/users/'+id.value;
-     url2='http://localhost:56584/api/users/'+id2.value;
+      id= document.getElementById('id').value;
+         id2= document.getElementById('id2').value;
+         var Name1=document.getElementById('name').value;
+         var Name2 =document.getElementById('name2').value;
+     url='http://localhost:56584/api/users/';
+         url1=url+id;
+     url2=url+id2;
     
     if (winner.value=="X") {
       score1=score1+10;
@@ -116,15 +118,15 @@ function update(winner){
     score1=score1-5;
     score2=score2+10;
     }
-    Data={
-        "id":Data1["id"],
-        "username":Data1["username"],
+    Data1={
+        "id":id,
+        "username": Name1,
         "score":score1
     };
 
     Data2={
-        "id":Data2["id"],
-        "username":Data2["username"],
+        "id":id2,
+        "username":Name2,
         "score":score2
     };
 
@@ -134,7 +136,7 @@ $.ajax({
             url: url1,
             type: 'PUT',
             dataType: 'json',
-            data: Data,
+            data: Data1,
             success: function(res){
 alert("1 updated");
               }
@@ -149,7 +151,7 @@ alert("2 updated");
             }
         });
 }
-  
+   
 function reset() {
     var b1 = document.getElementById("1");
     var b2 = document.getElementById("2");
@@ -254,6 +256,7 @@ function endcheck() {
     else if (((b7=="X") || (b7=="O")) && ((b7 == b5) && (b5 == b3))){
       popup(b7);
     }
+    
     }
 
   
@@ -322,17 +325,24 @@ function xoo(button) {
 </head>
   <body>
 
-    /*onload="load()">*/
+    <br><br><br>
 
   <h3>Player1</h3>
-<input type="text" id="id">
-<input type="text" id="name">
+<input type="text" id="id" placeholder="1st User Id">
+<input type="text" id="name" placeholder="1st User Name">
 <br>
   <h3>Player2</h3>
-<input type="text" id="id2">
-<input type="text" id="name2">
-<input type="submit" id="register" value="Register" onclick="register()">
-
+<input type="text" id="id2" placeholder="2nd User Id">
+<input type="text" id="name2" placeholder="2nd User Name">
+<button type="submit" id="register" value="Register" onclick="register()">First time user. Register</button>
+<br><br>
+<button type="submit" id="register" value="Register" onclick="load()">Returning user. login</button>
+<br>
+Player 1 score.
+<textarea id="Score1"></textarea>
+<br>
+Player 2 score.
+<textarea id="Score2"></textarea>
 <div id="myDIV">
   <header>
   <h1>TIC TAC TOE</h1>
@@ -344,19 +354,19 @@ function xoo(button) {
   
   <table>
   <tr>
-  <td><input type="button" id="1" onclick="xoo(1)" value=""/></td>
-  <td><input type="button" id="2" onclick="xoo(2)" value=""/></td>
-  <td><input type="button" id="3" onclick="xoo(3)" value=""/></td>
+  <td><input type="button" id="1" onclick="xoo(1)" value="" placeholder="X/0" /></td>
+  <td><input type="button" id="2" onclick="xoo(2)" value="" placeholder="X/0"/></td>
+  <td><input type="button" id="3" onclick="xoo(3)" value="" placeholder="X/0"/></td>
   </tr>
   <tr>
-  <td><input type="button" id="4" onclick="xoo(4)" value=""/></td>
-  <td><input type="button" id="5" onclick="xoo(5)" value=""/></td>
-  <td><input type="button" id="6" onclick="xoo(6)" value=""/></td>
+  <td><input type="button" id="4" onclick="xoo(4)" value="" placeholder="X/0"/></td>
+  <td><input type="button" id="5" onclick="xoo(5)" value="" placeholder="X/0"/></td>
+  <td><input type="button" id="6" onclick="xoo(6)" value="" placeholder="X/0"/></td>
   </tr>
   <tr>
-  <td><input type="button" id="7" onclick="xoo(7)" value=""/></td>
-  <td><input type="button" id="8" onclick="xoo(8)" value=""/></td>
-  <td><input type="button" id="9" onclick="xoo(9)" value=""/></td>
+  <td><input type="button" id="7" onclick="xoo(7)" value="" placeholder="X/0"/></td>
+  <td><input type="button" id="8" onclick="xoo(8)" value="" placeholder="X/0"/></td>
+  <td><input type="button" id="9" onclick="xoo(9)" value="" placeholder="X/0"/></td>
   </tr>
   </table>
   <br><br>

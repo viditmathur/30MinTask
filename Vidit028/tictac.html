@@ -75,6 +75,7 @@ var name2= '';
             launch();
              }
         });
+
     }
 
 function load(){
@@ -88,6 +89,7 @@ $.ajax({
             success: function(res){
                 Data1=res;
                 score1=Data1["score"];
+      document.getElementById("Score1").innerHTML=score1;
               }
         });
 $.ajax({
@@ -97,6 +99,9 @@ $.ajax({
             success: function(resp){
                 Data2=resp;
                 score2=Data2["score"];
+                
+      document.getElementById("Score2").innerHTML=score2;
+
             }
         });
 
@@ -214,6 +219,8 @@ function popup(winner) {
       popuptext = document.getElementById("text");
       popuptext.innerHTML = winner + " wins.";
       update(winner);
+      document.getElementById("Score1").innerHTML=score1;
+      document.getElementById("Score2").innerHTML=score2;
 
       var pop = document.getElementById("popup");
       var overlay = document.getElementById("overlay");
